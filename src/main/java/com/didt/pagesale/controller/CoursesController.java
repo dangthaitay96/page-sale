@@ -3,7 +3,6 @@ package com.didt.pagesale.controller;
 import com.didt.pagesale.dto.CoursesDto;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.server.CoursesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,8 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 public class CoursesController {
-    @Autowired
-    private CoursesService coursesService;
+    private final CoursesService coursesService;
+
+    public CoursesController(CoursesService coursesService) {
+        this.coursesService = coursesService;
+    }
 
     @GetMapping("/listCourses")
     public ResponseEntity<List<CoursesDto>> getCourses() {
@@ -38,6 +40,11 @@ public class CoursesController {
         Resource file = coursesService.load(filename);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deleteCourses(@PathVariable(value = "id") Long id){
+        return new ResponseEntity<>(coursesService.delete(id), HttpStatus.OK);
     }
 
 }
