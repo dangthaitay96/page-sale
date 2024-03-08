@@ -1,27 +1,29 @@
 package com.didt.pagesale.server;
 
 import com.didt.pagesale.dto.CoursesDto;
+import com.didt.pagesale.exception.FileStorageException;
 import com.didt.pagesale.model.Courses;
 import com.didt.pagesale.repository.CoursesRepository;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.utils.FileUploadUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.cleanPath;
 
+@Slf4j
 @Service
 public class CoursesService {
     private final Path root = Paths.get("files");
@@ -44,18 +46,17 @@ public class CoursesService {
         String fileName = cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         long size = multipartFile.getSize();
 
-        String filecode = FileUploadUtil.saveFile(fileName, multipartFile);
+        String fileCode = FileUploadUtil.saveFile(root, fileName, multipartFile);
 
         FileUploadResponse response = new FileUploadResponse();
         response.setFileName(fileName);
         response.setSize(size);
-        response.setDownloadUri("/courses/files/" + filecode);
-
+        response.setDownloadUri("/courses/files/" + fileCode);
 
         Courses courses = new Courses();
         courses.setName(name);
         courses.setDescription(description);
-        courses.setImage("/courses/files/"+ filecode);
+        courses.setImage("/courses/files/" + fileCode);
         coursesRepository.save(courses);
 
         return response;
@@ -69,10 +70,33 @@ public class CoursesService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("Could not read the file!");
+                throw new FileStorageException("Could not read the file: " + filename);
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
+            throw new FileStorageException("Error accessing file: " + filename, e);
         }
+    }
+
+    public Long delete(Long id) {
+        String path = coursesRepository.findById(id).get().getImage();
+
+        int lastIndexOfSlash = path.lastIndexOf('/');
+        String fileNameToDelete = path.substring(lastIndexOfSlash + 1);
+        try {
+            Files.walkFileTree(root, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                    if (file.getFileName().toString().equals(fileNameToDelete)) {
+                        Files.delete(file);
+                        log.info("Deleted file: " + file);
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        coursesRepository.deleteById(id);
+        return id;
     }
 }
