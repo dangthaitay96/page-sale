@@ -22,12 +22,15 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtHelper jwtHelper;
+    private final JwtHelper jwtHelper;
 
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtHelper jwtHelper, UserDetailsService userDetailsService) {
+        this.jwtHelper = jwtHelper;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -40,7 +43,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         //Authorization
 
         String requestHeader = request.getHeader("Authorization");
-        //Bearer 2352345235sdfrsfgsdfsdf
         log.info(" Header :  {}", requestHeader);
         String username = null;
         String token = null;

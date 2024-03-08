@@ -26,8 +26,8 @@ public class CoursesController {
     @PostMapping("/create")
     public ResponseEntity<FileUploadResponse> createCourses(
             @RequestParam("file") MultipartFile multipartFile,
-            String description,
-            String name) throws IOException {
+            @RequestParam String description,
+            @RequestParam String name) throws IOException {
         return new ResponseEntity<>(coursesService.upload(multipartFile, description, name), HttpStatus.OK);
     }
 }
