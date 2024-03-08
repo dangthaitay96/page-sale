@@ -8,6 +8,7 @@ import com.didt.pagesale.utils.FileUploadUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,12 +43,13 @@ public class CoursesService {
         FileUploadResponse response = new FileUploadResponse();
         response.setFileName(fileName);
         response.setSize(size);
-        response.setDownloadUri("/downloadFile/" + filecode);
+        response.setDownloadUri("/Files-Upload/" + filecode);
+
 
         Courses courses = new Courses();
         courses.setName(name);
         courses.setDescription(description);
-        courses.setImage(response.getDownloadUri());
+        courses.setImage("/Files-Upload/"+ filecode);
         coursesRepository.save(courses);
 
         return response;

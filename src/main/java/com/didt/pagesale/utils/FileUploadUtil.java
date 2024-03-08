@@ -30,6 +30,6 @@ public class FileUploadUtil {
             throw new IOException("Could not save file: " + fileName, ioe);
         }
 
-        return fileCode;
+        return fileCode + "-" + fileName;
     }
 }
