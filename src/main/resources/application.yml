@@ -1,8 +1,10 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/pagesale?allowPublicKeyRetrieval=true
-    username: didt
-    password: didt
+#    username: didt
+#    password: didt
+    username: root
+    password: nh@tvv123A@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
