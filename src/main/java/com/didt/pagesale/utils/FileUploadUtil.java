@@ -15,7 +15,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class FileUploadUtil {
     public static String saveFile(String fileName, MultipartFile multipartFile)
             throws IOException {
-        Path uploadPath = Paths.get("Files-Upload");
+        Path uploadPath = Paths.get("files");
 
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
