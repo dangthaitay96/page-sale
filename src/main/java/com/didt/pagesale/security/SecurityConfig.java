@@ -8,6 +8,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
@@ -27,16 +29,18 @@ public class SecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(request -> {
-                    CorsConfiguration configuration = new CorsConfiguration();
-                    configuration.setAllowedOrigins(Arrays.asList("http://localhost:4201"));
-                    configuration.setAllowedMethods(Arrays.asList("*"));
-                    configuration.setAllowedHeaders(Arrays.asList("*"));
-                    return configuration;
-                }))
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOrigins(Arrays.asList("*"));
+                            configuration.setAllowedMethods(Arrays.asList("*"));
+                            configuration.setAllowedHeaders(Arrays.asList("*"));
+                            return configuration;
+                        }))
+
                 .authorizeRequests()
-                .requestMatchers("/courses/create", "/courses/:id").authenticated()
-                .requestMatchers("/auth/login", "/courses/listCourses", "/courses/files/**").permitAll()
+                .requestMatchers("/courses/create", "/courses/:id", "/courses/listCourses").authenticated()
+                .requestMatchers("/auth/login", "/anonymous/courses/listCourses", "/courses/files/**").permitAll()
                 .anyRequest()
+
                 .authenticated()
                 .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
