@@ -4,32 +4,26 @@ import com.didt.pagesale.dto.FeedbacksDto;
 import com.didt.pagesale.mapper.FeedbackMapper;
 import com.didt.pagesale.repository.FeedbacksRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class FeedbacksService {
-    final ModelMapper mapper;
     final FeedbacksRepository feedbacksRepository;
-
     final FeedbackMapper feedbackMapper;
 
-    public FeedbacksService(ModelMapper mapper, FeedbacksRepository feedbacksRepository, FeedbackMapper feedbackMapper) {
-        this.mapper = mapper;
+    public FeedbacksService(FeedbacksRepository feedbacksRepository, FeedbackMapper feedbackMapper) {
         this.feedbacksRepository = feedbacksRepository;
         this.feedbackMapper = feedbackMapper;
     }
 
+
     public List<FeedbacksDto> getList() {
-        var itemList = feedbacksRepository.findAll();
-        return itemList.stream()
-                .map(item -> mapper.map(item, FeedbacksDto.class))
-                .collect(Collectors.toList());
+        var listFeed = feedbacksRepository.findAll();
+        return feedbackMapper.mapListEtoListD(listFeed);
     }
 
     public FeedbacksDto create(FeedbacksDto input) {

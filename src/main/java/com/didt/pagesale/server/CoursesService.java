@@ -2,13 +2,12 @@ package com.didt.pagesale.server;
 
 import com.didt.pagesale.dto.CoursesDto;
 import com.didt.pagesale.exception.FileStorageException;
+import com.didt.pagesale.mapper.CoursesMapper;
 import com.didt.pagesale.model.Courses;
 import com.didt.pagesale.repository.CoursesRepository;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.utils.FileUploadUtil;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.extern.slf4j.Slf4j;
-import org.modelmapper.ModelMapper;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -20,27 +19,24 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.cleanPath;
 
-@Slf4j
 @Service
 public class CoursesService {
     private final Path root = Paths.get("files");
-    final ModelMapper mapper;
     final CoursesRepository coursesRepository;
+    final CoursesMapper coursesMapper;
 
-    public CoursesService(ModelMapper mapper, CoursesRepository coursesRepository) {
-        this.mapper = mapper;
+    public CoursesService(CoursesRepository coursesRepository, CoursesMapper coursesMapper) {
         this.coursesRepository = coursesRepository;
+        this.coursesMapper = coursesMapper;
     }
+
 
     public List<CoursesDto> getCourses() {
         var listCourses = coursesRepository.findAll();
-        return listCourses.stream()
-                .map(course -> mapper.map(course, CoursesDto.class))
-                .collect(Collectors.toList());
+        return coursesMapper.listEntityToListDto(listCourses);
     }
 
     public FileUploadResponse upload(MultipartFile multipartFile, String description, String name) throws IOException {
