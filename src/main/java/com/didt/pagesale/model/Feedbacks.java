@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 
@@ -15,7 +14,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "feedbacks")
-//@EntityListeners(AuditingEntityListener.class)
 public class Feedbacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

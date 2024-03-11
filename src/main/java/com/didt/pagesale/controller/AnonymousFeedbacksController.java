@@ -1,8 +1,6 @@
-package com.didt.pagesale.controller.anonymous;
+package com.didt.pagesale.controller;
 
-import com.didt.pagesale.dto.CoursesDto;
 import com.didt.pagesale.dto.FeedbacksDto;
-import com.didt.pagesale.server.CoursesService;
 import com.didt.pagesale.server.FeedbacksService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +15,7 @@ import java.util.List;
 public class AnonymousFeedbacksController {
     private final FeedbacksService feedbacksService;
 
-    public AnonymousFeedbacksController(FeedbacksService feedbacksService)
-    {
+    public AnonymousFeedbacksController(FeedbacksService feedbacksService) {
         this.feedbacksService = feedbacksService;
     }
 

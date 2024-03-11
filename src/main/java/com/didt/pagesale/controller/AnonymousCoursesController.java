@@ -1,4 +1,4 @@
-package com.didt.pagesale.controller.anonymous;
+package com.didt.pagesale.controller;
 
 import com.didt.pagesale.dto.CoursesDto;
 import com.didt.pagesale.server.CoursesService;

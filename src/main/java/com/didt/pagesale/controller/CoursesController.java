@@ -41,7 +41,7 @@ public class CoursesController {
             @RequestParam String description,
             @RequestParam Long id,
             @RequestParam String name) throws IOException {
-        return new ResponseEntity<>(coursesService.update(id,multipartFile, description, name), HttpStatus.OK);
+        return new ResponseEntity<>(coursesService.update(id, multipartFile, description, name), HttpStatus.OK);
     }
 
     @GetMapping("/files/{filename:.+}")
@@ -52,7 +52,7 @@ public class CoursesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteCourses(@PathVariable(value = "id") Long id){
+    public ResponseEntity<Long> deleteCourses(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(coursesService.delete(id), HttpStatus.OK);
     }
 

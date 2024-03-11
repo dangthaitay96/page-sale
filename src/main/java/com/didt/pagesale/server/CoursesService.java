@@ -1,11 +1,8 @@
 package com.didt.pagesale.server;
 
 import com.didt.pagesale.dto.CoursesDto;
-import com.didt.pagesale.dto.FeedbacksDto;
-import com.didt.pagesale.dto.FeedbacksUpdateDto;
 import com.didt.pagesale.exception.FileStorageException;
 import com.didt.pagesale.model.Courses;
-import com.didt.pagesale.model.Feedbacks;
 import com.didt.pagesale.repository.CoursesRepository;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.utils.FileUploadUtil;
@@ -21,7 +18,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -71,7 +67,7 @@ public class CoursesService {
         Courses courses = coursesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-      if (multipartFile != null) {
+        if (multipartFile != null) {
             String fileName = cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             long size = multipartFile.getSize();
             String fileCode = FileUploadUtil.saveFile(root, fileName, multipartFile);
