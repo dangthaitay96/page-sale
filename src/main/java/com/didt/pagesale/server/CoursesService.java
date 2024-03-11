@@ -69,7 +69,6 @@ public class CoursesService {
 
         if (multipartFile != null) {
             String fileName = cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-            long size = multipartFile.getSize();
             String fileCode = FileUploadUtil.saveFile(root, fileName, multipartFile);
             courses.setImage("/courses/files/" + fileCode);
 
@@ -96,7 +95,8 @@ public class CoursesService {
     }
 
     public Long delete(Long id) {
-        String path = coursesRepository.findById(id).get().getImage();
+        var courses = coursesRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        String path = courses.getImage();
 
         int lastIndexOfSlash = path.lastIndexOf('/');
         String fileNameToDelete = path.substring(lastIndexOfSlash + 1);
@@ -106,7 +106,6 @@ public class CoursesService {
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                     if (file.getFileName().toString().equals(fileNameToDelete)) {
                         Files.delete(file);
-                        log.info("Deleted file: " + file);
                     }
                     return FileVisitResult.CONTINUE;
                 }
