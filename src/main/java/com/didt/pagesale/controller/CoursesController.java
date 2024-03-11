@@ -37,7 +37,7 @@ public class CoursesController {
 
     @PutMapping("/update")
     public ResponseEntity<FileUploadResponse> update(
-            @RequestParam("file") MultipartFile multipartFile,
+            @RequestParam(value = "file", required = false) MultipartFile multipartFile,
             @RequestParam String description,
             @RequestParam Long id,
             @RequestParam String name) throws IOException {

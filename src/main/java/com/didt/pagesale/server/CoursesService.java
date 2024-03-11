@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.springframework.util.StringUtils.cleanPath;
+import java.util.Arrays;
 
 @Service
 public class CoursesService {
@@ -63,7 +64,7 @@ public class CoursesService {
         Courses courses = coursesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
 
-        if (multipartFile != null) {
+        if (multipartFile != null && !multipartFile.isEmpty() && isSupportedFileType(multipartFile.getContentType())) {
             String fileName = cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             String fileCode = FileUploadUtil.saveFile(root, fileName, multipartFile);
             courses.setImage("/courses/files/" + fileCode);
@@ -73,6 +74,11 @@ public class CoursesService {
         courses.setName(name);
         coursesRepository.save(courses);
         return null;
+    }
+
+    private boolean isSupportedFileType(String contentType) {
+        List<String> supportedTypes = Arrays.asList("image/jpeg", "image/png", "application/pdf");
+        return supportedTypes.contains(contentType);
     }
 
     public Resource load(String filename) {
