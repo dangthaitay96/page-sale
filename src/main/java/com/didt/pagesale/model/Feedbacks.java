@@ -32,16 +32,4 @@ public class Feedbacks {
     private String createdBy;
     @Column(name = "modifiedBy")
     private String modifiedBy;
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public void setCreatedDate(Date date) {
-        this.createdDate = date;
-    }
-
-    public void setCreatedBy(String name) {
-        this.createdBy = name;
-    }
 }

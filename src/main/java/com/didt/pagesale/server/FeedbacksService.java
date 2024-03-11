@@ -33,22 +33,21 @@ public class FeedbacksService {
     }
 
     public FeedbacksDto create(FeedbacksDto input) {
+        input.setStatus(1);
+        input.setCreatedDate(new Date());
+        input.setCreatedBy("admin");
         var feedbacks = feedbackMapper.mapDtoE(input);
-        feedbacks.setStatus(1);
-        feedbacks.setCreatedDate(new Date());
-        feedbacks.setCreatedBy("admin");
         feedbacksRepository.save(feedbacks);
 
         return null;
     }
 
     public FeedbacksDto update(FeedbacksDto input) {
+        input.setStatus(1);
+        input.setCreatedDate(new Date());
+        input.setCreatedBy("admin");
         var feedbacks = feedbackMapper.mapDtoE(input);
-        feedbacks.setStatus(1);
-        feedbacks.setCreatedDate(new Date());
-        feedbacks.setCreatedBy("admin");
         feedbacksRepository.save(feedbacks);
-
         return input;
     }
 
