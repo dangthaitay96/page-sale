@@ -61,7 +61,7 @@ public class CoursesService {
         return response;
     }
 
-    public FileUploadResponse update(Long id, MultipartFile multipartFile, String description, String name) throws IOException {
+    public String update(Long id, MultipartFile multipartFile, String description, String name) throws IOException {
         Courses courses = coursesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
         log.info(courses.toString());
@@ -74,7 +74,7 @@ public class CoursesService {
         courses.setDescription(description);
         courses.setName(name);
         coursesRepository.save(courses);
-        return null;
+        return "ok";
     }
 
     public Resource load(String filename) {

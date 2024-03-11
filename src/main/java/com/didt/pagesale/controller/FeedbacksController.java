@@ -24,14 +24,12 @@ public class FeedbacksController {
 
     @PostMapping("/create")
     public ResponseEntity<FeedbacksDto> create(@RequestBody FeedbacksDto input) {
-        FeedbacksDto createdFeedback = feedbacksService.create(input);
-        return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+        return new ResponseEntity<>(feedbacksService.create(input), HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<FeedbacksDto> update(@RequestBody FeedbacksDto input) {
-        FeedbacksDto createdFeedback = feedbacksService.update(input);
-        return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+    public ResponseEntity<?> update(@RequestBody FeedbacksDto input) {
+        return new ResponseEntity<>(feedbacksService.update(input), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

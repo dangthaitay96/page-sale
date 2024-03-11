@@ -36,7 +36,7 @@ public class CoursesController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<FileUploadResponse> update(
+    public ResponseEntity<?> update(
             @RequestParam(value = "file", required = false) MultipartFile multipartFile,
             @RequestParam String description,
             @RequestParam Long id,

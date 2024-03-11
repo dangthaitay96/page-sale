@@ -36,13 +36,13 @@ public class FeedbacksService {
         return null;
     }
 
-    public FeedbacksDto update(FeedbacksDto input) {
+    public String update(FeedbacksDto input) {
         input.setStatus(1);
         input.setCreatedDate(new Date());
         input.setCreatedBy("admin");
         var feedbacks = feedbackMapper.mapDtoE(input);
         feedbacksRepository.save(feedbacks);
-        return input;
+        return "ok";
     }
 
     public Long delete(Long id) {
