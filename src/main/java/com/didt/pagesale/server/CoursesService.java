@@ -8,6 +8,7 @@ import com.didt.pagesale.repository.CoursesRepository;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.utils.FileUploadUtil;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Objects;
 
 import static org.springframework.util.StringUtils.cleanPath;
 
+@Slf4j
 @Service
 public class CoursesService {
     private final Path root = Paths.get("files");
@@ -62,12 +64,12 @@ public class CoursesService {
     public FileUploadResponse update(Long id, MultipartFile multipartFile, String description, String name) throws IOException {
         Courses courses = coursesRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Course not found"));
+        log.info(courses.toString());
 
         if (multipartFile != null) {
             String fileName = cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
             String fileCode = FileUploadUtil.saveFile(root, fileName, multipartFile);
             courses.setImage("/courses/files/" + fileCode);
-
         }
         courses.setDescription(description);
         courses.setName(name);
