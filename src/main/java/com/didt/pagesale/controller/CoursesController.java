@@ -35,6 +35,15 @@ public class CoursesController {
         return new ResponseEntity<>(coursesService.upload(multipartFile, description, name), HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<FileUploadResponse> update(
+            @RequestParam("file") MultipartFile multipartFile,
+            @RequestParam String description,
+            @RequestParam Long id,
+            @RequestParam String name) throws IOException {
+        return new ResponseEntity<>(coursesService.update(id,multipartFile, description, name), HttpStatus.OK);
+    }
+
     @GetMapping("/files/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = coursesService.load(filename);

@@ -3,6 +3,7 @@ package com.didt.pagesale.controller;
 import com.didt.pagesale.dto.CoursesDto;
 import com.didt.pagesale.dto.FeedbacksCreateDto;
 import com.didt.pagesale.dto.FeedbacksDto;
+import com.didt.pagesale.dto.FeedbacksUpdateDto;
 import com.didt.pagesale.response.FileUploadResponse;
 import com.didt.pagesale.server.CoursesService;
 import com.didt.pagesale.server.FeedbacksService;
@@ -31,5 +32,16 @@ public class FeedbacksController {
     public ResponseEntity<FeedbacksDto> create(@RequestBody FeedbacksCreateDto input) {
         FeedbacksDto createdFeedback = feedbacksService.create(input);
         return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<FeedbacksDto> create(@RequestBody FeedbacksUpdateDto input) {
+        FeedbacksDto createdFeedback = feedbacksService.update(input);
+        return new ResponseEntity<>(createdFeedback, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> delete(@PathVariable(value = "id") Long id){
+        return new ResponseEntity<>(feedbacksService.delete(id), HttpStatus.OK);
     }
   }

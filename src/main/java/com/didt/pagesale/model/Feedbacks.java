@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "feedbacks")
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class Feedbacks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
