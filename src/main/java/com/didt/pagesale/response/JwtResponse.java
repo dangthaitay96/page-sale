@@ -1,7 +1,4 @@
-package com.didt.pagesale.security;
-
-import lombok.Builder;
-import lombok.Data;
+package com.didt.pagesale.response;
 
 
 public class JwtResponse {

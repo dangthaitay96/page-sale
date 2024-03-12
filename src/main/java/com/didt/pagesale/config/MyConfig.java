@@ -1,4 +1,4 @@
-package com.didt.pagesale.security;
+package com.didt.pagesale.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

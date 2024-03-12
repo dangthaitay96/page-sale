@@ -1,5 +1,7 @@
-package com.didt.pagesale.security;
+package com.didt.pagesale.config;
 
+import com.didt.pagesale.security.JwtAuthenticationEntryPoint;
+import com.didt.pagesale.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

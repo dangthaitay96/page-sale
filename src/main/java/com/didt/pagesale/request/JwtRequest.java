@@ -1,4 +1,4 @@
-package com.didt.pagesale.security;
+package com.didt.pagesale.request;
 
 import lombok.Data;
 
