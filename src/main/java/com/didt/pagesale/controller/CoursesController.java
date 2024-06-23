@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ public class CoursesController {
   @GetMapping("/listCourses")
   public ResponseEntity<List<CoursesDto>> getCourses() {
     return new ResponseEntity<>(coursesService.getCourses(), HttpStatus.OK);
+  }
+
+  @GetMapping("/paging")
+  public ResponseEntity<Page<CoursesDto>> getCourses(Pageable pageable) {
+    Page<CoursesDto> courses = coursesService.getCourses(pageable);
+    return ResponseEntity.ok().body(courses);
   }
 
   @PostMapping("/create")

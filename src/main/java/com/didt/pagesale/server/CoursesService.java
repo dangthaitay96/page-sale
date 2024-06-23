@@ -11,6 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,6 +41,11 @@ public class CoursesService {
     public List<CoursesDto> getCourses() {
         var listCourses = coursesRepository.findAll();
         return coursesMapper.listEntityToListDto(listCourses);
+    }
+
+    public Page<CoursesDto> getCourses(Pageable pageable) {
+        Page<Courses> page = coursesRepository.findAll(pageable);
+        return page.map(coursesMapper::entityToDto);
     }
 
     public FileUploadResponse upload(MultipartFile multipartFile, String description, String name) throws IOException {
