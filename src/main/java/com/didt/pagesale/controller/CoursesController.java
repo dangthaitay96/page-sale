@@ -6,6 +6,8 @@ import com.didt.pagesale.server.CoursesService;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Objects;
+
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +49,7 @@ public class CoursesController {
   }
 
   @PutMapping("/update")
-  public ResponseEntity<?> update(
+  public ResponseEntity<Boolean> update(
       @RequestParam(value = "file", required = false) MultipartFile multipartFile,
       @RequestParam String description,
       @RequestParam Long id,
@@ -64,7 +66,7 @@ public class CoursesController {
         .header(
             HttpHeaders.CONTENT_DISPOSITION,
             "attachment; filename=\""
-                + UriUtils.encode(file.getFilename(), StandardCharsets.UTF_8)
+                + UriUtils.encode(Objects.requireNonNull(file.getFilename()), StandardCharsets.UTF_8)
                 + "\"")
         .body(file);
   }
