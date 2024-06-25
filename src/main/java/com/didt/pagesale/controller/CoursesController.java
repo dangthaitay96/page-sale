@@ -59,7 +59,7 @@ public class CoursesController {
         coursesService.update(id, multipartFile, description, name), HttpStatus.OK);
   }
 
-  @GetMapping("/files/{filename:.+}")
+  /*@GetMapping("/files/{filename:.+}")
   public ResponseEntity<Resource> getFile(@PathVariable String filename) {
     Resource file = coursesService.load(filename);
     return ResponseEntity.ok()
@@ -69,6 +69,15 @@ public class CoursesController {
                 + UriUtils.encode(Objects.requireNonNull(file.getFilename()), StandardCharsets.UTF_8)
                 + "\"")
         .body(file);
+  }*/
+  @GetMapping("/files/{filename:.+}")
+  public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+    Resource file = coursesService.load(filename);
+    return ResponseEntity.ok()
+            .header(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=\"" + UriUtils.encode(Objects.requireNonNull(file.getFilename()), StandardCharsets.UTF_8) + "\"")
+            .header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+            .body(file);
   }
 
   @DeleteMapping("/{id}")

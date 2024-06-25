@@ -40,7 +40,7 @@ public class SecurityConfig {
 
                 .authorizeRequests()
                 .requestMatchers("/courses/create", "/courses/:id" , "/courses/update", "/feedbacks/**").authenticated()
-                .requestMatchers("/courses/listCourses","/auth/login", "/anonymous/**", "/courses/files/**").permitAll()
+                .requestMatchers("/courses/listCourses","/auth/login", "/anonymous/**", "/courses/files/**", "/courses/paging").permitAll()
                 .anyRequest()
 
                 .authenticated()
